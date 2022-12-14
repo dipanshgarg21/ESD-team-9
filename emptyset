@@ -1,0 +1,36 @@
+import time
+import pymysql
+from datetime import datetime
+
+#conencting to database
+conn = pymysql.connect(host='localhost', user='localuser1', password='rootuser', database='sensordb')
+cursor = conn.cursor()
+
+#for a new student	
+path = '/home/pi/testing/image1'
+rno = '12'
+name = 'Dipansh Garg'
+mail = 'dipanshgarg21@gmail.com'
+cursor.execute("INSERT INTO STUDENT (STU_IMAGE, STU_ID, STU_NAME, STU_MAIL) VALUES (%s, %s, %s, %s)", (path, rno, name, mail))
+conn.commit()
+
+#sensor input based on the above rno
+now = datetime.now()
+formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+	
+rno = '12'
+time = formatted_date
+sen1 = '1.32'
+sen2 = '2.23'
+sen3 = '3.23'
+cursor.execute("INSERT INTO SENSORDATA (STU_ID, TEST_TIME, SEN1, SEN2, SEN3) VALUES (%s, %s, %s, %s, %s)", (rno, time, sen1, sen2, sen3))
+conn.commit()
+
+cursor.execute("SELECT SEN1 FROM SENSORDATA where STU_ID = 12")
+output = cursor.fetchone()
+print(output)
+conn.commit()
+		
+#exitting
+cursor.close()
+conn.close()
