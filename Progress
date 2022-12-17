@@ -24,7 +24,7 @@ screen.geometry('600x600')
 screen.configure(background="bisque")
 
 
-def func():
+def ExistingStudent():
     myvar = c1.get()
     if myvar.isdigit() == True:    
         if len(str((myvar))) <= 10 and len(str((myvar))) > 9:
@@ -43,10 +43,11 @@ def func():
                 
                 screen1 = Tk()
                 screen1.title("Student Data")
-                screen1.geometry('600x600')
-                ta = Label(screen1, text='Displaying Student Data', font=('Arial', 26), fg='red', background="bisque")
-                ta.place(x=120, y=0)
+                screen1.geometry('700x600')
+                main_title = Label(screen1, text='Displaying Student Data', font=('Arial', 26), fg='red', background="bisque")
+                main_title.place(x=120, y=0)
 
+                #IMAGE DETECTION
                 #             frame = Frame(screen1, width=600, height=400)
                 #             frame.pack()
                 #             frame.place(anchor='center', relx=0.5, rely=0.5)
@@ -59,114 +60,144 @@ def func():
                 #             label.pack()
 
 
-                tw = Label(screen1, text='Student Name: ', font=('Arial', 20), fg='red')
-                tw.place(x=50, y=300)
-                te = Label(screen1, text=fetchname, font=('Arial', 20), fg='red')
-                te.place(x=260, y=300)
-                tr = Label(screen1, text='Student ID: ', font=('Arial', 20), fg='red')
-                tr.place(x=50, y=340)
-                tt = Label(screen1, text=fetchid , font=('Arial', 20), fg='red')
-                tt.place(x=260, y=340)
-                ty = Label(screen1, text='Guardian mail: ', font=('Arial', 20), fg='red')
-                ty.place(x=50, y=380)
-                tu = Label(screen1, text=fetchmail, font=('Arial', 20), fg='red')
-                tu.place(x=260, y=380)
-                ti = Label(screen1, text='Start Checkup: ', font=('Arial', 20), fg='red')
-                ti.place(x=50, y=420)
-                il = Button(screen1, text='Start',font=('Arial', 16), fg='red', background="white", command = start)
-                il.place(x=260, y=420)
-                ts = Label(screen1, text='Previous Data: ', font=('Arial', 20), fg='red')
-                ts.place(x=50, y=460)
-                ig = Button(screen1, text='See',font=('Arial', 16), fg='red', background="white", command = see)
-                ig.place(x=260, y=460)
+                namelabel = Label(screen1, text='Student Name: ', font=('Arial', 20), fg='red')
+                namelabel.place(x=50, y=300)
+                disp_name = Label(screen1, text=fetchname, font=('Arial', 20), fg='red')
+                disp_name.place(x=260, y=300)
+                idlabel = Label(screen1, text='Student ID: ', font=('Arial', 20), fg='red')
+                idlabel.place(x=50, y=340)
+                disp_id = Label(screen1, text=fetchid , font=('Arial', 20), fg='red')
+                disp_id.place(x=260, y=340)
+                maillabel = Label(screen1, text='Guardian mail: ', font=('Arial', 20), fg='red')
+                maillabel.place(x=50, y=380)
+                disp_mail = Label(screen1, text=fetchmail, font=('Arial', 20), fg='red')
+                disp_mail.place(x=260, y=380)
+                
+                StartCheck = Label(screen1, text='Start Checkup: ', font=('Arial', 20), fg='red')
+                StartCheck.place(x=50, y=420)
+                
+                
+                #PREVIOUS RECORD
+                def prevrecords():
+                    screen1 = Tk()
+                    screen1.title("Student Previous Data")
+                    screen1.geometry('600x600')
+
+                    s_name = Label(screen1, text='Student Name: ', font=('Arial', 20), fg='red')
+                    s_name.place(x=50, y=300)
+                    name_out = Label(screen1, text=fetchname, font=('Arial', 20), fg='red')
+                    name_out.place(x=260, y=300)
+
+                    s_id = Label(screen1, text='Student ID: ', font=('Arial', 20), fg='red')
+                    s_id.place(x=50, y=340)
+                    id_out = Label(screen1, text=fetchid, font=('Arial', 20), fg='red')
+                    id_out.place(x=260, y=340)
+
+                    sen1 = Label(screen1, text='SPO2: ', font=('Arial', 20), fg='red')
+                    sen1.place(x=50, y=380)
+                    cursor.execute(f"SELECT SPO2 from SENSORDATA where STU_ID = {myvar}")
+                    fetchspo2 = cursor.fetchone()
+                    sen1_out = Label(screen1, text=fetchspo2, font=('Arial', 20), fg='red')
+                    sen1_out.place(x=260, y=380)
+
+                    sen2 = Label(screen1, text='TEMPERATURE: ', font=('Arial', 20), fg='red')
+                    sen2.place(x=50, y=420)
+                    cursor.execute(f"SELECT TEMP from SENSORDATA where STU_ID = {myvar}")
+                    fetchtemp = cursor.fetchone()
+                    sen2_out = Label(screen1, text=fetchtemp, font=('Arial', 20), fg='red')
+
+                    sen2_out.place(x=260, y=420)
+                    sen3 = Label(screen1, text='PULSE: ', font=('Arial', 20), fg='red')
+                    sen3.place(x=50, y=460)
+                    cursor.execute(f"SELECT PULSE from SENSORDATA where STU_ID = {myvar}")
+                    fetchpulse = cursor.fetchone()
+                    sen3_out = Label(screen1, text=fetchpulse, font=('Arial', 20), fg='red')
+                    sen3_out.place(x=260, y=460)
+
+                #SENSOR's START READING
+                def StartReading():
+                    screen = Tk()
+                    screen.title("Student Checkup")
+                    screen.geometry('600x600')
+                    tq = Label(screen, text='Sensor 1:', font=('Arial', 20), fg='red', background="bisque")
+                    tq.place(x=50, y=150)
+                    iq = Button(screen, text='start',font=('Arial', 16), fg='red', background="white", command = Communicate)
+                    iq.place(x=200, y=150)
+                    tq = Label(screen, text='Sensor Data:', font=('Arial', 20), fg='red', background="bisque")
+                    tq.place(x=400, y=150)
+                    tw = Label(screen, text='Sensor 2: ', font=('Arial', 20), fg='red', background="bisque")
+                    tw.place(x=50, y=200)
+                    iw = Button(screen, text='Start',font=('Arial', 16), fg='red', background="white", command = Communicate1)
+                    iw.place(x=200, y=200)
+                    tq = Label(screen, text='Sensor Data:', font=('Arial', 20), fg='red', background="bisque")
+                    tq.place(x=400, y=200)
+                    te = Label(screen, text='Sensor 3:', font=('Arial', 20), fg='red', background="bisque")
+                    te.place(x=50, y=250)
+                    ie = Button(screen, text='Start',font=('Arial', 16), fg='red', background="white", command = Communicate2)
+                    ie.place(x=200, y=250)
+                    tq = Label(screen, text='Sensor Data:', font=('Arial', 20), fg='red', background="bisque")
+                    tq.place(x=400, y=250)
+                    tr = Label(screen, text='Sensor 4: ', font=('Arial', 20), fg='red', background="bisque", command = Communicate3)
+                    tr.place(x=50, y=300)
+                    ir = Button(screen, text='Start',font=('Arial', 16), fg='red', background="white")
+                    ir.place(x=200, y=300)
+                i123 = Button(screen1, text='Start',font=('Arial', 16), fg='red', background="white")
+                i123.place(x=260, y=420)
+                t324 = Label(screen1, text='Previous Data: ', font=('Arial', 20), fg='red')
+                t324.place(x=50, y=460)
+                i909 = Button(screen1, text='Previous record',font=('Arial', 16), fg='red', background="white", command = prevrecords)
+                i909.place(x=260, y=460)
             else:
                 messagebox.showerror("Error 404", "Entered ID does not exist")
         elif len(str((myvar))) > 10 or len(str((myvar))) < 10:
             messagebox.showerror("Error","Entered ID of " + str(len(str(myvar))) + " digit is Invalid")
     elif myvar.isdigit() == False:
         messagebox.showerror("Error", "Entered ID is Invalid")
-
-
-def start():
-    screen = Tk()
-    screen.title("Student Checkup")
-    screen.geometry('600x600')
-    tq = Label(screen, text='Sensor 1:', font=('Arial', 20), fg='red', background="bisque")
-    tq.place(x=50, y=150)
-    iq = Button(screen, text='start',font=('Arial', 16), fg='red', background="white", command = Communicate)
-    iq.place(x=200, y=150)
-    tq = Label(screen, text='Sensor Data:', font=('Arial', 20), fg='red', background="bisque")
-    tq.place(x=400, y=150)
-    tw = Label(screen, text='Sensor 2: ', font=('Arial', 20), fg='red', background="bisque")
-    tw.place(x=50, y=200)
-    iw = Button(screen, text='Start',font=('Arial', 16), fg='red', background="white", command = Communicate1)
-    iw.place(x=200, y=200)
-    tq = Label(screen, text='Sensor Data:', font=('Arial', 20), fg='red', background="bisque")
-    tq.place(x=400, y=200)
-    te = Label(screen, text='Sensor 3:', font=('Arial', 20), fg='red', background="bisque")
-    te.place(x=50, y=250)
-    ie = Button(screen, text='Start',font=('Arial', 16), fg='red', background="white", command = Communicate2)
-    ie.place(x=200, y=250)
-    tq = Label(screen, text='Sensor Data:', font=('Arial', 20), fg='red', background="bisque")
-    tq.place(x=400, y=250)
-    tr = Label(screen, text='Sensor 4: ', font=('Arial', 20), fg='red', background="bisque", command = Communicate3)
-    tr.place(x=50, y=300)
-    ir = Button(screen, text='Start',font=('Arial', 16), fg='red', background="white")
-    ir.place(x=200, y=300)
     
 def Addnew():
-	screen = Tk()
-	screen.title("Student Checkup")
-	screen.geometry('600x600')
-	ta = Label(screen, text='Add New Student Data', font=('Arial', 26), fg='red', background="bisque")
-	ta.place(x=120, y=0)
-	tr = Label(screen, text='Enter Student Name: ', font=('Arial', 20), fg='red', background="bisque")
-	tr.place(x=30, y=100)
-	S_NAME = Entry(screen, font=('Arial', 20), width=10)
-	S_NAME.place(x=350, y=100)
-	tr = Label(screen, text='Enter Student ID: ', font=('Arial', 20), fg='red', background="bisque")
-	tr.place(x=30, y=150)
-	S_ID = Entry(screen, font=('Arial', 20), width=10)
-	S_ID.place(x=350, y=150)
-	tr = Label(screen, text='Enter Student Email-ID: ', font=('Arial', 20), fg='red', background="bisque")
-	tr.place(x=30, y=200)
-	S_MAIL = Entry(screen, font=('Arial', 20), width=10)
-	S_MAIL.place(x=350, y=200)
-	# tr = Label(screen, text='Start Face Recognization: ', font=('Arial', 20), fg='red', background="bisque")
-	# tr.place(x=30, y=250)
-	b = Button(screen, text='OK', font=('Arial', 20), fg='red', background="white", command = lambda: Savedata(str(S_ID), S_NAME, S_MAIL))
-	b.place(x=430, y=250)
+    screen = Tk()
+    screen.title("New Student Entry")
+    screen.geometry('600x600')
 
-def Savedata(ID, NAME, MAIL):
-	if len(str(ID)) == 10:
-		path = f'/home/pi/Datasets_FinalProj/{ID}'
-		os.mkdir(path)
-		cursor.execute("INSERT INTO STUDENT (STU_IMAGE, STU_ID, STU_NAME, STU_MAIL) VALUES (%s, %s, %s, %s)", (path, ID, NAME, MAIL))
-		conn.commit()
-	else:
-		Label(screen, text = "INVALID INPUT")
-	
+    def submit():
+        if len(str(entry2.get())) == 10:
+            entry = cursor.execute(f"SELECT * from STUDENT where STU_ID = {myvar}")
+            conn.commit()
+            if entry == 0:
+                path = f"/home/pi/Datasets_FinalProj/{str(entry2.get())}"
+                os.mkdir(path)
+                cursor.execute("INSERT INTO STUDENT(STU_IMAGE, STU_ID, STU_NAME, STU_MAIL) VALUES (%s, %s, %s, %s)", (path, entry2.get(), entry1.get(), entry3.get()))
+                conn.commit()
+            else:
+                messagebox.showerror("Error", "Entered ID already exists")
+        else:
+            messagebox.showerror("Error", "Entered ID is Invalid")
+        
+    inputname = Label(screen, text='Enter Student Name: ', font=('Arial', 20), fg='red', background="bisque")
+    inputname.place(x=30, y=100)
+    inputid = Label(screen, text='Enter Student ID: ', font=('Arial', 20), fg='red', background="bisque")
+    inputid.place(x=30, y=150)
+    inputmail = Label(screen, text='Enter Student Email-ID: ', font=('Arial', 20), fg='red', background="bisque")
+    inputmail.place(x=30, y=200)
+
+    entry1 = Entry(screen, font=('Arial', 20), width=10)#, textvariable = e_name)
+    entry1.place(x=350, y=100)
+    entry1.get()
+    entry2 = Entry(screen, font=('Arial', 20), width=10)#textvariable = e_id, )
+    entry2.place(x=350, y=150)
+    entry2.get()
+    entry3 = Entry(screen, font=('Arial', 20), width=10)#, textvariable = e_mail)
+    entry3.place(x=350, y=200)
+
+    submitbutton = Button(screen, text='SUBMIT', font=('Arial', 20), fg='red', background="white", command = submit)
+    submitbutton.place(x=430, y=250)
+
+
+
+
     
 def Senddata():
     Print("Send the data to the database")
-
-def see():
-    screen1 = Tk()
-    screen1.title("Student Previous Data")
-    screen1.geometry('600x600')
-    
-    tw = Label(screen1, text='Student Name: ', font=('Arial', 20), fg='red')
-    tw.place(x=50, y=300)
-    te = Label(screen1, text='Student Name', font=('Arial', 20), fg='red')
-    te.place(x=260, y=300)
-    tr = Label(screen1, text='Student ID: ', font=('Arial', 20), fg='red')
-    tr.place(x=50, y=340)
-    tt = Label(screen1, text='Student ID', font=('Arial', 20), fg='red')
-    tt.place(x=260, y=340)
-    ty = Label(screen1, text='Display previous data: ', font=('Arial', 20), fg='red')
-    ty.place(x=50, y=380)
-    tu = Label(screen1, text='Display previous data', font=('Arial', 20), fg='red')
-    tu.place(x=260, y=380)
     
     
 def Communicate():
@@ -194,7 +225,7 @@ t4 = Label(screen, text='Enter Student ID: ', font=('Arial', 14),  fg='black', b
 t4.place(x=135, y=215)
 c1 = Entry(screen, font=('Arial', 14), width=10)
 c1.place(x=310, y=213)
-b = Button(screen, text='OK', font=('Arial', 14), fg='red', background="white", command = func)
+b = Button(screen, text='OK', font=('Arial', 14), fg='red', background="white", command = ExistingStudent)
 b.place(x=430, y=210)
 t5 = Label(screen, text='Add New Student ', font=('Arial', 14),  fg='black', background="bisque")
 t5.place(x=235, y=315)
